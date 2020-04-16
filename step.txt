@@ -1,0 +1,17 @@
+@react-navigation/native : https://reactnavigation.org/docs/getting-started/
+
+road map
+- navigation
+- tab panel
+- routing page with parameter
+- Drawer menu (left, right, top, and bottom)
+- Multiple Navigatar, Tab + Stack + Stack
+- components [https://react-native-elements.github.io/react-native-elements/docs/getting_started.html]
+    - feed news [https://github.com/archriss/react-native-snap-carousel]
+    - tab with scroll
+    - modals
+    - dynamic header
+    - UI componen [react-native-elements]
+        - Form, Input, Combo Box, Search header
+        - Icon, Button, Image
+    - Web View
