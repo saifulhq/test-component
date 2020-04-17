@@ -12,7 +12,11 @@ const Elm = ({ items, onClick }) => {
             let enable = active ? elm.active ? true : false : false;
             let blurClass = enable ? s.none : styles.blur;
             viewItems.push(
-                <TouchableOpacity key={'product_list_m_' + index + elm.id} style={[s.row, styles.box, blurClass]} disabled={!enable}>
+                <TouchableOpacity
+                    key={'product_list_m_' + index + elm.id} style={[s.row, styles.box, blurClass]}
+                    disabled={!enable}
+                    onPress={() => onClick('product', index, elm)}
+                >
                     <View style={[s.row, blurClass]}>
                         <Image style={styles.img} source={{ uri: '../images/noimage.png' }}
                             PlaceholderContent={imageText(enable, 'out stock')}

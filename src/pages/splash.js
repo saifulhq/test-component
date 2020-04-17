@@ -1,11 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 
 
 const Page = ({ navigation, route }) => {
-    console.log({ navigation, route });
     const [token] = useState(route.params?.token ? route.params?.token : 'null');
     return (
         <View style={styles.container}>

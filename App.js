@@ -8,20 +8,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// shopping cart
+import { Provider } from 'react-redux';
+import store from './src/store';
+
 // own component
 import SplashScreen from './src/pages/splash';
 import LoginScreen from './src/pages/login';
 import RegisterScreen from './src/pages/register';
 import HomeScreen from './src/pages/home';
 import DetailScreen from './src/pages/detail';
-import PostScreen from './src/pages/post';
+import CartScreen from './src/pages/cart';
 import ProfileScreen from './src/pages/profile';
 import OutletScreen from './src/pages/outlet';
 import SearchScreen from './src/pages/search';
 import ProductScreen from './src/pages/product';
+import ModalScreen from './src/components/orderModal';
 
 export const AuthContext = createContext();
-export const CardContext = createContext();
 
 const App = ({ navigation }) => {
   const [state, dispatch] = useReducer(
@@ -34,7 +38,6 @@ const App = ({ navigation }) => {
             userToken: action.token,
             isLoading: false,
           };
-          console.log('kudune mrene pertama kali');
           break;
         case 'SIGN_IN':
           result = {
@@ -59,10 +62,7 @@ const App = ({ navigation }) => {
       userToken: null,
     }
   );
-
-  console.log('init Effect');
   useEffect(() => {
-    console.log('useEffect called');
     const bootstrapAsync = async () => {
       let userToken;
       try {
@@ -70,8 +70,8 @@ const App = ({ navigation }) => {
       } catch (e) {
         console.error(e);
       }
+
       // TODO : authentication to server
-      console.log('koen=', userToken);
       setTimeout(() => {
         dispatch({ type: 'RESTORE_TOKEN', token: userToken });
       }, 3000);
@@ -85,28 +85,17 @@ const App = ({ navigation }) => {
         // TODO : check to server username and password, then save the token
         let token = JSON.stringify(data);
         let status = await AsyncStorage.setItem('userToken', token);
-        console.log({ status });
         dispatch({ type: 'SIGN_IN', token });
       },
       signOut: async () => {
         // TODO : call backend to remove token
         let status = await AsyncStorage.removeItem('userToken');
-        console.log({ status });
         dispatch({ type: 'SIGN_OUT' });
       },
       signUp: async data => {
         dispatch({ type: 'RESTORE_TOKEN' });
       },
     }), []
-  );
-
-  const cartContext = useMemo(
-    () => ({
-      add: item => {
-
-      },
-    }),
-    []
   );
 
   // if (state.isLoading) {
@@ -117,7 +106,8 @@ const App = ({ navigation }) => {
   const Stack = createStackNavigator();
   function HomeTab() {
     return (
-      <Tab.Navigator initialRouteName="Home"
+      <Tab.Navigator
+        // initialRouteName="Home"
         headerMode="none"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -132,7 +122,7 @@ const App = ({ navigation }) => {
                 iconName = focused ? 'history' : 'history';
                 break;
               }
-              case 'Post': {
+              case 'Cart': {
                 iconName = focused ? 'cart' : 'cart-outline';
                 break;
               }
@@ -155,35 +145,38 @@ const App = ({ navigation }) => {
       >
         <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
         <Tab.Screen name="Detail" component={DetailScreen} options={{ title: 'Histories' }} initialParams={{ itemId: 42 }} />
-        <Tab.Screen name="Post" component={PostScreen} options={{ title: 'Cart' }} />
+        <Tab.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }} />
         <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
+        {/* <Tab.Screen name="Modal" component={ModalScreen} options={{ title: 'Profile' }} /> */}
       </Tab.Navigator>
     );
   }
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          {state.isLoading ? (
-            <Stack.Screen name="Splash" component={SplashScreen} initialParams={{ token: state.token }} headerMode="none" />
-          ) : state.userToken == null ? (
-            <>
-              <Stack.Screen name="SignIn" component={LoginScreen} headerMode="none" />
-              <Stack.Screen name="SignUp" component={RegisterScreen} headerMode="none" />
-            </>
-          ) : (
-                <>
-                  <Stack.Screen name="Home" component={HomeTab} />
-                  <Stack.Screen name="Outlet" component={OutletScreen} />
-                  <Stack.Screen name="Product" component={ProductScreen} />
-                  <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
-                </>
-              )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            {state.isLoading ? (
+              <Stack.Screen name="Splash" component={SplashScreen} initialParams={{ token: state.token }} headerMode="none" />
+            ) : state.userToken == null ? (
+              <>
+                <Stack.Screen name="SignIn" component={LoginScreen} headerMode="none" />
+                <Stack.Screen name="SignUp" component={RegisterScreen} headerMode="none" />
+              </>
+            ) : (
+                  <>
+                    <Stack.Screen name="Home" component={HomeTab} />
+                    <Stack.Screen name="Outlet" component={OutletScreen} />
+                    <Stack.Screen name="Product" component={ProductScreen} />
+                    <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
+                  </>
+                )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </AuthContext.Provider >
   );
 };

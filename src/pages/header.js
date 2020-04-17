@@ -10,10 +10,8 @@ export default class Page extends Component {
         },
     }
     componentDidMount() {
-        console.log('call componentDidMount');
     }
     componentDidUpdate(){
-        console.log('call componentDidUpdate');
     }
     render() {
         return (

@@ -59,7 +59,7 @@ const Elm = ({ items, onClick }) => {
             <FlatList
                 data={items}
                 renderItem={({ item, index }) => renderOutlet(item, index)}
-                keyExtractor={item => item.id}
+                keyExtractor={item => 'outlet_list_p_' + item.id}
             />
         </View>
     );

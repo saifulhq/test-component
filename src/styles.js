@@ -54,8 +54,25 @@ const styles = StyleSheet.create({
     center: {
         alignItems: 'center',
     },
+    right: {
+        alignItems: 'flex-end',
+    },
     blur: {
         opacity: 0.5,
+    },
+    panel: {
+        padding: 5,
+        margin: 3,
+    },
+    leftRight: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    through: {
+        textDecorationLine: 'line-through',
+    },
+    link: {
+        color: 'blue',
     },
 });
 

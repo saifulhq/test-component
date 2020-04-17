@@ -14,10 +14,8 @@ const Page = ({ navigation }) => {
     const [init, setInit] = useState(true);
     const [hint, setHint] = useState(['Ayam geprek', 'Sego sambel', 'Tahu Campur']);
 
-    console.log('init', { keyword });
 
     useEffect(() => {
-        console.log('use effect called');
     }, []);
 
     // React.useLayoutEffect(() => {
@@ -30,10 +28,9 @@ const Page = ({ navigation }) => {
     //         ),
     //     });
     // }, [navigation, keyword, setKeyword, doSearch]);
-    function doSearch() {
-        console.log('search', { keyword });
+    function doSearch(text) {
         // TODO : search to database using keyword
-        setRow(keyword ? [
+        setRow(text ? keyword ? [
             {
                 id: 1,
                 name: 'Ayam Gondanglegi Nanda',
@@ -206,17 +203,17 @@ const Page = ({ navigation }) => {
                     },
                 ],
             },
-        ] : []);
+        ] : [] : []);
         setInit(false);
         return;
     }
 
     const updateHint = (key, index, text) => {
+        doSearch(text);
         if (key === 'add') {
             setKeyword(text);
         }
         // setHint(hint.filter((d, i) => i !== index));
-        doSearch();
     };
     const doDetail = (key, index, item) => {
         navigation.navigate('Product', { key, index, item });
