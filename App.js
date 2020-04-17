@@ -18,16 +18,14 @@ import PostScreen from './src/pages/post';
 import ProfileScreen from './src/pages/profile';
 import OutletScreen from './src/pages/outlet';
 import SearchScreen from './src/pages/search';
+import ProductScreen from './src/pages/product';
 
 export const AuthContext = createContext();
-
+export const CardContext = createContext();
 
 const App = ({ navigation }) => {
-  console.log('init use reducer');
   const [state, dispatch] = useReducer(
     (prevState, action) => {
-      console.log('use reducer called');
-      console.log({ prevState, action });
       let result = {};
       switch (action.type) {
         case 'RESTORE_TOKEN':
@@ -53,7 +51,6 @@ const App = ({ navigation }) => {
           };
           break;
       }
-      console.log('hasilnya', { result });
       return result;
     },
     {
@@ -103,6 +100,15 @@ const App = ({ navigation }) => {
     }), []
   );
 
+  const cartContext = useMemo(
+    () => ({
+      add: item => {
+
+      },
+    }),
+    []
+  );
+
   // if (state.isLoading) {
   //   return (<SplashScreen />);
   // }
@@ -122,6 +128,14 @@ const App = ({ navigation }) => {
                 iconName = focused ? 'home' : 'home-outline';
                 break;
               }
+              case 'Detail': {
+                iconName = focused ? 'history' : 'history';
+                break;
+              }
+              case 'Post': {
+                iconName = focused ? 'cart' : 'cart-outline';
+                break;
+              }
               case 'Profile': {
                 iconName = focused ? 'account' : 'account-outline';
                 break;
@@ -139,10 +153,10 @@ const App = ({ navigation }) => {
           labelStyle: {},
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Home Page' }} />
-        <Tab.Screen name="Detail" component={DetailScreen} options={{ title: 'Detail Page' }} initialParams={{ itemId: 42 }} />
-        <Tab.Screen name="Post" component={PostScreen} options={{ title: 'Post Page' }} />
-        <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile Page' }} />
+        <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+        <Tab.Screen name="Detail" component={DetailScreen} options={{ title: 'Histories' }} initialParams={{ itemId: 42 }} />
+        <Tab.Screen name="Post" component={PostScreen} options={{ title: 'Cart' }} />
+        <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
       </Tab.Navigator>
     );
   }
@@ -164,6 +178,7 @@ const App = ({ navigation }) => {
                 <>
                   <Stack.Screen name="Home" component={HomeTab} />
                   <Stack.Screen name="Outlet" component={OutletScreen} />
+                  <Stack.Screen name="Product" component={ProductScreen} />
                   <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
                 </>
               )}

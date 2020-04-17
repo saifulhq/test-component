@@ -39,7 +39,7 @@ const Page = ({ navigation }) => {
             },
         ];
         return items;
-    }
+    };
     return (
         <SafeAreaView style={styles.container}>
             <Button

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,6 +16,10 @@ const Page = ({ navigation }) => {
 
     console.log('init', { keyword });
 
+    useEffect(() => {
+        console.log('use effect called');
+    }, []);
+
     // React.useLayoutEffect(() => {
     //     navigation.setOptions({
     //         headerTitle: (props) => (
@@ -27,7 +31,7 @@ const Page = ({ navigation }) => {
     //     });
     // }, [navigation, keyword, setKeyword, doSearch]);
     function doSearch() {
-        console.log('serac', { keyword });
+        console.log('search', { keyword });
         // TODO : search to database using keyword
         setRow(keyword ? [
             {
@@ -215,7 +219,7 @@ const Page = ({ navigation }) => {
         doSearch();
     };
     const doDetail = (key, index, item) => {
-        console.log({ key, index, item });
+        navigation.navigate('Product', { key, index, item });
     };
 
     return (

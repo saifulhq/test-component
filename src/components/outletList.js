@@ -2,14 +2,16 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'react-native-elements';
-import TextRow from './textRow';
+import s from '../styles';
 
 const imageWidht = 50;
 const Elm = ({ items, onClick }) => {
     function renderOutlet(item, index) {
+        let enable = item.close ? false : true;
+        let blur = enable ? s.none : s.blur;
         return (
-            <View>
-                <TouchableOpacity style={styles.outletContainer} disabled={item.close}
+            <View key={'outlet_list_' + index} style={[blur]}>
+                <TouchableOpacity style={styles.outletContainer} disabled={!enable}
                     onPress={() => onClick('outlet', index, item)}
                 >
                     <Image
@@ -20,19 +22,19 @@ const Elm = ({ items, onClick }) => {
                     <View style={styles.outletText}>
                         <Text style={[styles.bold, styles.font16]}>{item.name}</Text>
                         <Text style={[styles.gray, styles.small]}>{item.category}</Text>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={[s.row]}>
                             <Text style={[styles.font12]}> {item.star} </Text>
                             <Text style={[styles.font12]}> {item.distance}km </Text>
                             <Text style={[styles.font12]}> {item.delivery_amount}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={[s.row]}>
                             <Text style={[styles.font12]}>Open : {item.open} </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {
                     item.products.map((l, i) => (
-                        <TouchableOpacity key={i} style={[styles.productContainer, styles.borderTop]} disabled={item.close}
+                        <TouchableOpacity key={'product_outlet_' + i} style={[styles.productContainer, styles.borderTop]} disabled={item.close}
                             onPress={() => onClick('product', index, l)}
                         >
                             <Image
@@ -41,7 +43,7 @@ const Elm = ({ items, onClick }) => {
                             />
                             <View style={[styles.outletText]}>
                                 <Text>{l.name}</Text>
-                                <View style={{ flexDirection: 'row' }}>
+                                <View style={[s.row]}>
                                     <Text style={[styles.bold, l.discounts ? styles.netAmount : styles.none]}>{l.net_amount}</Text>
                                     <Text style={styles.grossAmount}>{l.discounts > 0 ? l.gross_amount : ''}</Text>
                                 </View>
