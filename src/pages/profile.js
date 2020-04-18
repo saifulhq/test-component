@@ -13,24 +13,6 @@ const Page = ({ navigation, route, cartItems, store, addItemToCart }) => {
                 title="Log Out Now"
                 onPress={() => signOut()}
             />
-            <Button
-                title="add item to cart"
-                onPress={() => addItemToCart(
-                    {
-                        id: 1,
-                        description: 'barang',
-                        name: 'barang',
-                        outlet_id: 1,
-                        outlet_name: 'Toko AA',
-                        markte_id: 1,
-                        market_name: 'AA Group',
-                        quantity: 1,
-                        gross_amount: 10000,
-                        net_amount: 8000,
-                        discounts: 2000,
-                    }
-                )}
-            />
         </View>
     );
 };

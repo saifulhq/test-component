@@ -1,22 +1,76 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, SafeAreaView, Dimensions, ScrollView, ListView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import s from '../styles';
 import { duit } from '../utils/number';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Overlay, Icon, Button } from 'react-native-elements';
 
 // const { width, height } = Dimensions.get("screen");
-const Page = ({ navigation, cartItems, total }) => {
-    // const [total, setTotal] = useState(accumulate);
-    const [num, setNum] = useState(0);
+const Page = ({ navigation, cartItems, total, cancelOrder, updateCartItem, removeItem }) => {
+    const [note, setNote] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [selected, setSelected] = useState({});
+    const [showModal, setShowModal] = useState(false);
     const [delivery, setDelivery] = useState(10000);
     useEffect(() => {
     });
+    const clearCart = () => {
+        Alert.alert(
+            'Cancel Order',
+            'Are you sure to cancel all order?',
+            [
+                { text: 'NO', onPress: () => { }, style: 'cancel' },
+                { text: 'YES', onPress: () => cancelOrder() },
+            ]
+        );
+    };
+    const showEdit = (data) => {
+        setSelected(data);
+        setNote(data.customer_note);
+        setQuantity(data.quantity);
+        setShowModal(true);
+    }
+    const updateCart = () => {
+        let updateItem = Object.assign({}, selected, { customer_note: note, quantity: quantity < 1 ? 1 : quantity });
+        updateCartItem(updateItem);
+        setShowModal(false);
+    };
+    const changeQuantity = (add) => {
+        let change = quantity + add;
+        if (change < 1) change = 1;
+        setQuantity(change);
+    };
+    const checkQuantity = () => {
+        let q = parseInt(quantity);
+        if (isNaN(q) || q < 1) { setQuantity(1); }
+    };
+    const removeCart = () => {
+        Alert.alert(
+            'Remove Item',
+            'Are you sure to remove this item?',
+            [
+                { text: 'NO', onPress: () => { }, style: 'cancel' },
+                {
+                    text: 'YES', onPress: () => {
+                        removeItem(selected);
+                        setShowModal(false);
+                        setSelected({});
+                    },
+                },
+            ]
+        );
+    };
+    const postOrder = () => {
+        // TODO : Save to server
+        Alert.alert('Your order already submitted, please check your order status at history page');
+        cancelOrder();
+    };
     return (
         <SafeAreaView>
             <View style={[styles.header, s.row]}>
-                <MaterialCommunityIcons name="close" size={25} />
+                <MaterialCommunityIcons name="close" size={25} onPress={() => clearCart()} />
             </View>
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Text style={[styles.sectionHeader]}>Deliver To</Text>
@@ -32,13 +86,17 @@ const Page = ({ navigation, cartItems, total }) => {
                     {cartItems.map((val, key) => (
                         <View key={'order_item_' + key} style={[s.leftRight, s.panel, { alignItems: 'flex-start' }]}>
                             <View style={[s.row]}>
-                                <Text style={[styles.quantity, s.link]}>{val.quantity ? val.quantity : 0}x</Text>
+                                <Text style={[styles.quantity, s.link]}
+                                    onPress={() => showEdit(val)}
+                                >
+                                    {val.quantity ? val.quantity : 0}x
+                                </Text>
                                 <Text style={[s.bold, styles.productName]}>{val.name}</Text>
                             </View>
                             <View style={[s.right]}>
                                 <Text style={[s.font14]}>{duit(val.net_amount)}</Text>
                                 {val.discounts ? (
-                                    <Text style={[s.right, s.through, s.font12]}>{duit(val.discounts)}</Text>
+                                    <Text style={[s.right, s.through, s.font12]}>{duit(val.gross_amount)}</Text>
                                 ) : (
                                         <></>
                                     )}
@@ -70,16 +128,71 @@ const Page = ({ navigation, cartItems, total }) => {
                     </View>
                     <Button
                         title="Order Now"
-                        onPress={() => { }}
+                        onPress={() => postOrder()}
                     />
                 </View>
                 <Text style={{ height: 50 }}> </Text>
             </ScrollView>
+            <Overlay
+                isVisible={showModal}
+                overlayBackgroundColor="#FFF"
+                onBackdropPress={() => setShowModal(false)}
+                borderRadius={10}
+                height={300}
+                width="90%"
+            >
+                <View style={styles.modal}>
+                    <Text style={[s.bold, s.font16]}>{selected.name}</Text>
+                    <TextInput
+                        placeholder="note for this item"
+                        value={note}
+                        onChangeText={(v) => setNote(v)}
+                    />
+                    <View style={[s.row, s.center, { paddingVertical: 20 }]}>
+                        <Icon name="minus" type="material-community" reverse color='blue'
+                            onPress={() => changeQuantity(-1)}
+                        />
+                        <TextInput
+                            maxLength={2}
+                            style={[s.font16, s.bold, s.center, { paddingHorizontal: 20, }]}
+                            value={quantity.toString()}
+                            onChangeText={v => setQuantity(v)}
+                            keyboardType="decimal-pad"
+                            onBlur={() => checkQuantity()}
+                        />
+                        <Icon name="plus" type="material-community" reverse color='blue'
+                            onPress={() => changeQuantity(1)}
+                        />
+                    </View>
+                    <View style={[s.row, { width: 200, justifyContent: 'space-around' }]}>
+                        <Button
+                            title="Remove"
+                            onPress={() => removeCart()}
+                        />
+                        <Button
+                            title="Update"
+                            onPress={() => updateCart()}
+                        />
+                    </View>
+                </View>
+            </Overlay>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    modal: {
+        paddingLeft: 20,
+        paddingVertical: 30,
+        alignItems: 'center',
+        position: 'absolute',
+        backgroundColor: '#FFF',
+        justifyContent: 'flex-start',
+        bottom: 0,
+        height: 300,
+        width: '100%',
+        borderRadius: 10,
+    },
     header: {
 
     },
@@ -107,6 +220,8 @@ const styles = StyleSheet.create({
     },
     productName: {
         marginLeft: 10,
+        flexWrap: 'wrap',
+        maxWidth: 275,
     },
     subTotal: {
         paddingHorizontal: 10,
@@ -132,7 +247,7 @@ const calculateTotal = (items) => {
         };
     }, accumulate);
     return total;
-}
+};
 const mapStateToProps = (state) => {
     return {
         cartItems: state,
@@ -143,7 +258,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         removeItem: (product) => dispatch({ type: 'REMOVE_FROM_CART', payload: product }),
+        cancelOrder: () => dispatch({ type: 'CANCEL_ORDER', payload: [] }),
         addItemToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product }),
+        updateCartItem: (product) => dispatch({ type: 'UPDATE_ITEM', payload: product }),
     };
 };
 

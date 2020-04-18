@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, SectionList, Button, Modal, StyleSheet, Dimensions } from 'react-native';
-import { SearchBar, Overlay, Icon } from 'react-native-elements';
+import { View, Text, SafeAreaView, Button, StyleSheet, Alert } from 'react-native';
+import { SearchBar, Overlay, Icon, Image } from 'react-native-elements';
 import ProductMediun from '../components/productList_m';
 import ProductSmall from '../components/productList_s';
 
@@ -10,172 +10,17 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import CartIcon from '../components/cartIcon';
 
+import { outlets as listOutlet, bestOffer } from '../../sample_data.json';
 
-const Page = ({ navigation, cartItems, addItemToCart }) => {
+const Page = ({ navigation, route, cartItems, addItemToCart }) => {
     const [quantity, setQuantity] = useState(1);
     const [selected, setSelected] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [search, updateSearch] = useState('');
-    const [item, setItem] = useState({
-        id: 1,
-        name: 'Ayam Gondanglegi Nanda',
-        market_id: 1,
-        market_name: 'AA Group',
-        img: '../images/nanda 1.png',
-        category: 'Chicken Delight',
-        star: 5,
-        delivery_amount: 20000,
-        distance: 11,
-        close: false,
-        open: '08.00 - 22.00',
-        products: [
-            {
-                id: 1,
-                category: 'Chicken Delight',
-                active: true,
-                items: [
-                    {
-                        id: 1,
-                        name: 'Ayam Goreng Ungkep',
-                        description: 'Ayam + lalapan + nasi + sambal',
-                        net_amount: 46000,
-                        gross_amount: 50000,
-                        discounts: 4000,
-                        img: '../images/nanda 2.png',
-                        active: true,
-                    },
-                    {
-                        id: 2,
-                        name: 'Ayam Kampung bumbu',
-                        description: 'Ayam + lalapan + nasi + sambal',
-                        net_amount: 50000,
-                        gross_amount: 50000,
-                        discounts: 0,
-                        img: '../images/nanda 3.png',
-                        active: true,
-                    },
-                ],
-            },
-            {
-                id: 2,
-                category: 'Noodles',
-                active: true,
-                items: [
-                    {
-                        id: 3,
-                        name: 'Mie Ayam Jakarta',
-                        description: 'Mie + ayam + pangsit',
-                        net_amount: 46000,
-                        gross_amount: 50000,
-                        discounts: 4000,
-                        img: '../images/nanda 2.png',
-                        active: false,
-                    },
-                    {
-                        id: 4,
-                        name: 'Mie Pangsit Original',
-                        description: 'Mie + ayam + pangsit',
-                        net_amount: 50000,
-                        gross_amount: 50000,
-                        discounts: 0,
-                        img: '../images/nanda 3.png',
-                        active: true,
-                    },
-                ],
-            },
-            {
-                id: 3,
-                category: 'Drinks',
-                active: true,
-                items: [
-                    {
-                        id: 5,
-                        name: 'Susu Jahe',
-                        description: 'Susu dan Jahe',
-                        net_amount: 46000,
-                        gross_amount: 50000,
-                        discounts: 4000,
-                        img: '../images/nanda 2.png',
-                        active: true,
-                    },
-                    {
-                        id: 6,
-                        name: 'STMJ Premium',
-                        description: 'Susu + Telkor + Madu + Jahe kualitas super, ukuran 1 gelas / 600ml',
-                        net_amount: 50000,
-                        gross_amount: 50000,
-                        discounts: 0,
-                        img: '../images/nanda 3.png',
-                        active: true,
-                    },
-                ],
-            },
-            {
-                id: 3,
-                category: 'Camilan',
-                active: false,
-                items: [
-                    {
-                        id: 5,
-                        name: 'Susu Jahe',
-                        description: 'Susu dan Jahe',
-                        net_amount: 46000,
-                        gross_amount: 50000,
-                        discounts: 4000,
-                        img: '../images/nanda 2.png',
-                        active: true,
-                    },
-                    {
-                        id: 6,
-                        name: 'STMJ Premium',
-                        description: 'Susu + Telkor + Madu + Jahe kualitas super, ukuran 1 gelas / 600ml',
-                        net_amount: 50000,
-                        gross_amount: 50000,
-                        discounts: 0,
-                        img: '../images/nanda 3.png',
-                        active: true,
-                    },
-                ],
-            },
-        ],
-        bestOffer: [
-            {
-                id: 1,
-                name: 'Ayam Goreng Ungkep',
-                net_amount: 46000,
-                gross_amount: 50000,
-                discounts: 4000,
-                img: '../images/nanda 2.png',
-                active: true,
-            },
-            {
-                id: 2,
-                name: 'Ayam Kampung bumbu manis sekali seperti yang jual dan yang beli',
-                net_amount: 50000,
-                gross_amount: 50000,
-                discounts: 0,
-                img: '../images/nanda 3.png',
-                active: true,
-            },
-            {
-                id: 3,
-                name: 'Ayam Goreng Ungkep',
-                net_amount: 46000,
-                gross_amount: 50000,
-                discounts: 4000,
-                img: '../images/nanda 2.png',
-                active: true,
-            },
-            {
-                id: 4,
-                name: 'Ayam Kampung bumbu manis',
-                net_amount: 50000,
-                gross_amount: 50000,
-                discounts: 0,
-                img: '../images/nanda 3.png',
-                active: true,
-            },
-        ],
+    const [note, setNote] = useState('');
+    const [item] = useState({
+        outlet: listOutlet[0],
+        bestOffer,
     });
     const bestOfferClick = (key, index, _item) => {
         setSelected(_item);
@@ -188,31 +33,59 @@ const Page = ({ navigation, cartItems, addItemToCart }) => {
     };
     const checkQuantity = () => {
         let q = parseInt(quantity);
-        if (isNaN(q) || q < 1) setQuantity(1);
+        if (isNaN(q) || q < 1) { setQuantity(1); }
     };
     const addItem = () => {
-        addItemToCart(Object.assign({}, selected, { quantity }));
+        let itemOrder = Object.assign({}, selected, {
+            quantity,
+            customer_note: note,
+            product_id: selected.id,
+            product_name: selected.name,
+        });
+        addItemToCart(itemOrder);
         setQuantity(1);
+        setNote('');
         setShowModal(false);
     };
     return (
         <SafeAreaView>
-            <SearchBar
+            {/* <SearchBar
                 placeholder="Type Here..."
                 onChangeText={updateSearch}
                 value={search}
                 showLoading={true}
-            />
+            /> */}
             <CartIcon navigation={navigation} cartItems={cartItems} />
             <ScrollView>
-                <View>
-                    <Text>Header Outlet Info</Text>
+                <View style={styles.outletInfo}>
+                    <Image
+                        style={styles.outletImg}
+                        source={{ uri: '../images/nanda 1.png' }}
+                        PlaceholderContent={<Text>Image</Text>}
+                    />
+                    <View style={[s.row, s.leftRight]}>
+                        <View>
+                            <Text style={[s.font16, s.bold, { fontSize: 18 }]}>{item.outlet.name}</Text>
+                            <Text style={[s.font12, s.gray]}>{item.outlet.category}</Text>
+                        </View>
+                        <Icon name="info-outline" 
+                            onPress={() => Alert.alert('Outlet Info')}
+                        />
+                    </View>
+                    <View style={[{ paddingHorizontal: 10 }]}>
+                        <Text style={[s.font12]}>bintanga, jarak: 12km, delivery: 22.000</Text>
+                        <Text style={[s.font12]}>Open : 08.00 - 22.00</Text>
+                    </View>
                 </View>
-                <View style={[]}>
-                    <Text style={[s.font16, s.bold]}>Best Offer</Text>
-                    <ProductMediun items={item.bestOffer} onClick={bestOfferClick} />
-                </View>
-                <View style={[]}>
+                {item.bestOffer.length ? (
+                    <View style={[{ paddingHorizontal: 5 }]}>
+                        <Text style={[s.font16, s.bold]}>Best Offer</Text>
+                        <ProductMediun items={item.bestOffer} onClick={bestOfferClick} />
+                    </View>
+                ) : (
+                        <></>
+                    )}
+                <View style={[{ paddingHorizontal: 5 }]}>
                     <Text style={[s.font16, s.bold]}>Products</Text>
                     {/* <SectionList
                         sections={item.products}
@@ -222,10 +95,9 @@ const Page = ({ navigation, cartItems, addItemToCart }) => {
                             <Text>{category}</Text>
                         )}
                     /> */}
-                    <ProductSmall items={item.products} onClick={bestOfferClick} />
-                    <Text style={{ margin: 20 }}></Text>
+                    <ProductSmall items={item.outlet.products} onClick={bestOfferClick} />
                 </View>
-                <Text style={{ margin: 20 }}></Text>
+                <Text style={{ margin: 10 }}></Text>
             </ScrollView>
             <Overlay
                 isVisible={showModal}
@@ -237,7 +109,11 @@ const Page = ({ navigation, cartItems, addItemToCart }) => {
             >
                 <View style={styles.modal}>
                     <Text style={[s.bold, s.font16]}>{selected.name}</Text>
-                    <TextInput placeholder="note" />
+                    <TextInput
+                        placeholder="note for this item"
+                        value={note}
+                        onChangeText={(v) => setNote(v)}
+                    />
                     <View style={[s.row, s.center, { paddingVertical: 20 }]}>
                         <Icon name="minus" type="material-community" reverse color='blue'
                             onPress={() => changeQuantity(-1)}
@@ -265,6 +141,16 @@ const Page = ({ navigation, cartItems, addItemToCart }) => {
 };
 
 const styles = StyleSheet.create({
+    outletInfo: {
+        flex: 1,
+        minHeight: 200,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        marginBottom: 10,
+    },
+    outletImg: {
+        height: 120,
+    },
     modal: {
         paddingVertical: 30,
         alignItems: 'center',

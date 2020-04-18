@@ -1,0 +1,370 @@
+{
+    "outlets" : [
+        {
+            "id": 1,
+            "name": "Ayam Gondanglegi Nanda",
+            "market_id": 1,
+            "market_name": "AA Group",
+            "img": "../images/nanda 1.png",
+            "category": "Chicken Delight",
+            "star": 5,
+            "delivery_amount": 20000,
+            "distance": 11,
+            "close": false,
+            "open": "08.00 - 22.00",
+            "active" : true,
+            "products": [
+                {
+                    "id": 1,
+                    "category": "Chicken Delight",
+                    "active": true,
+                    "items": [
+                        {
+                            "id": 1,
+                            "name": "Ayam Goreng Ungkep",
+                            "description": "Ayam + lalapan + nasi + sambal",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 2.png",
+                            "active": true
+                        },
+                        {
+                            "id": 2,
+                            "name": "Ayam Kampung bumbu",
+                            "description": "Ayam + lalapan + nasi + sambal",
+                            "net_amount": 50000,
+                            "price": 50000,
+                            "discounts": 0,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "category": "Noodles",
+                    "active": true,
+                    "items": [
+                        {
+                            "id": 3,
+                            "name": "Mie Ayam Jakarta",
+                            "description": "Mie + ayam + pangsit",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 2.png",
+                            "active": false
+                        },
+                        {
+                            "id": 4,
+                            "name": "Mie Pangsit Original",
+                            "description": "Mie + ayam + pangsit",
+                            "net_amount": 50000,
+                            "price": 50000,
+                            "discounts": 0,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "category": "Drinks",
+                    "active": true,
+                    "items": [
+                        {
+                            "id": 5,
+                            "name": "Susu Jahe",
+                            "description": "Susu dan Jahe",
+                            "net_amount": 15000,
+                            "price": 20000,
+                            "discounts": 5000,
+                            "img": "../images/nanda 2.png",
+                            "active": true
+                        },
+                        {
+                            "id": 6,
+                            "name": "STMJ Premium",
+                            "description": "Susu + Telkor + Madu + Jahe kualitas super, ukuran 1 gelas / 600ml",
+                            "net_amount": 50000,
+                            "price": 50000,
+                            "discounts": 0,
+                            "img": "../images/nanda 3.png",
+                            "active": true,
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "category": "Camilan",
+                    "active": false,
+                    "items": [
+                        {
+                            "id": 7,
+                            "name": "Susu Jahe",
+                            "description": "Susu dan Jahe",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 2.png",
+                            "active": true
+                        },
+                        {
+                            "id": 8,
+                            "name": "STMJ Premium",
+                            "description": "Susu + Telkor + Madu + Jahe kualitas super, ukuran 1 gelas / 600ml",
+                            "net_amount": 50000,
+                            "price": 50000,
+                            "discounts": 0,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Aflah Bakery",
+            "market_id": 1,
+            "market_name": "AA Group",
+            "img": "../images/nanda 1.png",
+            "category": "Bakery",
+            "star": 4,
+            "delivery_amount": 16000,
+            "distance": 9,
+            "close": true,
+            "open": "08.00 - 22.00",
+            "products": [
+                {
+                    "id": 5,
+                    "category": "Kue",
+                    "active": false,
+                    "items": [
+                        {
+                            "id": 9,
+                            "name": "Roti kukus lapis legit",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 4.png",
+                            "active": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Azka Cell",
+            "market_id": 1,
+            "market_name": "AA Group",
+            "img": "../images/nanda 1.png",
+            "category": "Cunter HP & Asesoris",
+            "star": 3,
+            "delivery_amount": 9000,
+            "distance": 5,
+            "close": false,
+            "open": "08.00 - 22.00",
+            "products": [
+                {
+                    "id": 6,
+                    "category": "Pulsa & Paket Data",
+                    "active": false,
+                    "items": [
+                        {
+                            "id": 10,
+                            "name": "Telkomsel Internet 20Giga",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 1.png",
+                            "active": true
+                        },
+                        {
+                            "id": 11,
+                            "name": "Telkomsel Pulsa 100ribu",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 2.png",
+                            "active": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Warung AA ",
+            "market_id": 1,
+            "market_name": "AA Group",
+            "img": "../images/nanda 1.png",
+            "category": "mini restoran",
+            "star": 2,
+            "delivery_amount": 40000,
+            "distance": 25,
+            "close": false,
+            "open": "08.00 - 22.00",
+            "products": [
+                {
+                    "id": 7,
+                    "category": "Pulsa & Paket Data",
+                    "active": false,
+                    "items": [
+                        {
+                            "id": 12,
+                            "name": "Sego Campur Sarapan",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        },
+                        {
+                            "id": 13,
+                            "name": "Sego Jagung Empok",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        },
+                        {
+                            "id": 14,
+                            "name": "Nasi Pecek Gondanglegi",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Toko AA",
+            "market_id": 1,
+            "market_name": "AA Group",
+            "img": "../images/nanda 1.png",
+            "category": "Toko Klontong",
+            "star": 1,
+            "delivery_amount": 28000,
+            "distance": 17,
+            "products": [
+                {
+                    "id": 8,
+                    "category": "Pulsa & Paket Data",
+                    "active": false,
+                    "items": [
+                        {
+                            "id": 15,
+                            "name": "AQUA Galon",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        },
+                        {
+                            "id": 16,
+                            "name": "Gas 3Kg",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        },
+                        {
+                            "id": 17,
+                            "name": "Blue Gas 5Kg",
+                            "net_amount": 46000,
+                            "price": 50000,
+                            "discounts": 4000,
+                            "img": "../images/nanda 3.png",
+                            "active": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "discounts" : [
+        {
+            "id": 1,
+            "name" : "Discount 10%",
+            "category" : "PER_PRODUCT",
+            "type" : "PERCENT",
+            "condition" : "24H",
+            "terms" : "PER_ITEM",
+            "discount" : 10,
+            "products" : [
+                {
+                    "id" : 1, 
+                    "market_id": 1, 
+                    "outlet_id": 1
+                },
+                {
+                    "id" : 2, 
+                    "market_id": 1, 
+                    "outlet_id": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name" : "Potongan 10.000",
+            "category" : "PER_MARKET",
+            "type" : "AMOUNT",
+            "condition" : "24H",
+            "terms" : "PER_TRX",
+            "discount" : 10000,
+            "products" : []
+        }
+    ],
+    "bestOffer": [
+        {
+            "id": 1,
+            "name": "Ayam Goreng Ungkep",
+            "net_amount": 46000,
+            "price": 50000,
+            "discounts": 4000,
+            "img": "../images/nanda 2.png",
+            "offer" : "Discount 10%",
+            "active": true
+        },
+        {
+            "id": 2,
+            "name": "Ayam Kampung bumbu manis sekali seperti yang jual dan yang beli",
+            "net_amount": 50000,
+            "price": 50000,
+            "discounts": 0,
+            "img": "../images/nanda 3.png",
+            "offer" : "Discount 20%",
+            "active": true
+        },
+        {
+            "id": 3,
+            "name": "Ayam Goreng Ungkep",
+            "net_amount": 46000,
+            "price": 50000,
+            "discounts": 4000,
+            "img": "../images/nanda 2.png",
+            "offer" : "Discount 10%",
+            "active": true
+        },
+        {
+            "id": 4,
+            "name": "Ayam Kampung bumbu manis",
+            "net_amount": 50000,
+            "price": 50000,
+            "discounts": 0,
+            "img": "../images/nanda 3.png",
+            "offer" : "Discount 5%",
+            "active": true
+        }
+    ]
+}

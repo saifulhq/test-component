@@ -59,3 +59,4 @@ buck-out/
 /ios/Pods/
 android/app/src/debug/
 yarn.lock
+android/app/src/main/assets/index.android.bundle

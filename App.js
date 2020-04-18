@@ -17,7 +17,7 @@ import SplashScreen from './src/pages/splash';
 import LoginScreen from './src/pages/login';
 import RegisterScreen from './src/pages/register';
 import HomeScreen from './src/pages/home';
-import DetailScreen from './src/pages/detail';
+import DetailScreen from './src/pages/history';
 import CartScreen from './src/pages/cart';
 import ProfileScreen from './src/pages/profile';
 import OutletScreen from './src/pages/outlet';

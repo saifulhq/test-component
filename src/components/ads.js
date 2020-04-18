@@ -12,7 +12,6 @@ const Elm = ({ items }) => {
     const _renderItem = ({ item, index }) => {
         return (
             <View style={styles.containerItem}>
-                <Text>index : {index}</Text>
                 <Image source={{ uri: item.img }} style={styles.itemImg} />
                 <Text style={styles.itemText}>{item.name}</Text>
                 <Text style={styles.itemText}>{item.img}</Text>
@@ -21,7 +20,7 @@ const Elm = ({ items }) => {
     };
     return (
         <SafeAreaView style={styles.container}>
-            {/* <Carousel
+            <Carousel
                 data={entries}
                 renderItem={_renderItem}
                 onSnapToItem={(index) => setActiveSlide(index)}
@@ -32,7 +31,7 @@ const Elm = ({ items }) => {
                 loop={true}
                 autoplay={true}
                 autoplayInterval={3000}
-            /> */}
+            />
             <Pagination
                 dotsLength={entries.length}
                 activeDotIndex={activeSlide}

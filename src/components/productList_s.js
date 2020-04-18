@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { FlatList, TouchableOpacity, Text, View, StyleSheet, SectionList } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { Image } from 'react-native-elements';
 import s from '../styles';
-import { create, act } from 'react-test-renderer';
+import { duit } from '../utils/number';
 
 const Elm = ({ items, onClick }) => {
     const createItem = (product, index, active) => {
@@ -27,8 +27,8 @@ const Elm = ({ items, onClick }) => {
                         </View>
                     </View>
                     <View style={[styles.priceContainer, blurClass]}>
-                        <Text style={[s.bold, styles.netAmount]}>{elm.net_amount}</Text>
-                        <Text style={styles.grossAmount}>{elm.discounts > 0 ? elm.gross_amount : ''}</Text>
+                        <Text style={[s.bold, elm.discounts ? styles.netAmount : s.none]}>{duit(elm.net_amount)}</Text>
+                        <Text style={styles.grossAmount}>{elm.discounts > 0 ? duit(elm.price) : ''}</Text>
                     </View>
                 </TouchableOpacity>
             );
@@ -40,11 +40,11 @@ const Elm = ({ items, onClick }) => {
         items.forEach((item, index) => {
             viewList.push(
                 <View key={'category_' + index + item.id}>
-                    <Text style={[s.bold, s.font12]}>{item.category}</Text>
+                    <Text style={[s.bold, s.font14]}>{item.category}</Text>
                     {createItem(item.items, index, item.active)}
                 </View>
             );
-        })
+        });
         return viewList;
     };
     const imageText = (active, text) => {

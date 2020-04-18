@@ -5,9 +5,8 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 const Home = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text>Home Screen</Text>
             <Button
-                title="Go to Details"
+                title="Start to Food library"
                 onPress={() => navigation.navigate('Outlet')}
             />
         </View>
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         padding: 10,
     },
 });

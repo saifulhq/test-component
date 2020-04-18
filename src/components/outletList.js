@@ -45,7 +45,7 @@ const Elm = ({ items, onClick }) => {
                                 <Text>{l.name}</Text>
                                 <View style={[s.row]}>
                                     <Text style={[styles.bold, l.discounts ? styles.netAmount : styles.none]}>{l.net_amount}</Text>
-                                    <Text style={styles.grossAmount}>{l.discounts > 0 ? l.gross_amount : ''}</Text>
+                                    <Text style={styles.grossAmount}>{l.discounts > 0 ? l.price : ''}</Text>
                                 </View>
                             </View>
                         </TouchableOpacity>

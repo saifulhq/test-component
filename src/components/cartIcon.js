@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Icon, Badge } from 'react-native-elements';
 import s from '../styles';
 
-const { width } = Dimensions.get('window');
 
 const Elm = ({ navigation, cartItems }) => {
+    const width = useWindowDimensions().width;
     return (
-        <View style={[s.row, styles.container]}>
+        <View style={[s.row, styles.container, { width }]}>
             <Icon name="arrow-left" type="material-community" reverse color='#000' size={15}
                 onPress={() => navigation.goBack()}
             />
@@ -26,9 +26,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'space-between',
         position: 'absolute',
-        top: 60,
+        // top: 60,
         left: 0,
-        width,
         zIndex: 100,
     },
 });
