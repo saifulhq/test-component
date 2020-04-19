@@ -23,7 +23,8 @@ import ProfileScreen from './src/pages/profile';
 import OutletScreen from './src/pages/outlet';
 import SearchScreen from './src/pages/search';
 import ProductScreen from './src/pages/product';
-import ModalScreen from './src/components/orderModal';
+import PosScreen from './src/pages/position';
+import { Text } from 'react-native';
 
 export const AuthContext = createContext();
 
@@ -124,7 +125,15 @@ const App = ({ navigation }) => {
               }
               case 'Cart': {
                 iconName = focused ? 'cart' : 'cart-outline';
-                break;
+                return (
+                  <>
+                    {store.getState().length > 0 && (
+                      <Text style={{ position: 'absolute', zIndex: 100 }}>{store.getState().length}</Text>
+                    )}
+                    <MaterialCommunityIcons name={iconName} size={size} color={color} />
+                  </>
+                );
+                // break;
               }
               case 'Profile': {
                 iconName = focused ? 'account' : 'account-outline';
@@ -143,12 +152,36 @@ const App = ({ navigation }) => {
           labelStyle: {},
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+        <Tab.Screen name="Home" component={MainStack} options={{ title: 'Home' }} />
         <Tab.Screen name="Detail" component={DetailScreen} options={{ title: 'Histories' }} initialParams={{ itemId: 42 }} />
-        <Tab.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }} />
+        <Tab.Screen name="Cart" component={CartStack} options={{ title: 'Cart' }} />
         <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
-        {/* <Tab.Screen name="Modal" component={ModalScreen} options={{ title: 'Profile' }} /> */}
       </Tab.Navigator>
+    );
+  }
+  function CartStack() {
+    return (<Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }}/>
+      <Stack.Screen name="Position" component={PosScreen} />
+    </Stack.Navigator>
+    );
+  }
+  function MainStack() {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Outlet" component={OutletScreen} />
+        <Stack.Screen name="Product" component={ProductScreen} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+      </Stack.Navigator >
     );
   }
   return (
@@ -158,7 +191,8 @@ const App = ({ navigation }) => {
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
-            }}>
+            }}
+          >
             {state.isLoading ? (
               <Stack.Screen name="Splash" component={SplashScreen} initialParams={{ token: state.token }} headerMode="none" />
             ) : state.userToken == null ? (
@@ -167,17 +201,12 @@ const App = ({ navigation }) => {
                 <Stack.Screen name="SignUp" component={RegisterScreen} headerMode="none" />
               </>
             ) : (
-                  <>
-                    <Stack.Screen name="Home" component={HomeTab} />
-                    <Stack.Screen name="Outlet" component={OutletScreen} />
-                    <Stack.Screen name="Product" component={ProductScreen} />
-                    <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
-                  </>
+                  <Stack.Screen name="Main Stack" component={HomeTab} />
                 )}
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
-    </AuthContext.Provider >
+    </AuthContext.Provider>
   );
 };
 

@@ -13,6 +13,7 @@
             "close": false,
             "open": "08.00 - 22.00",
             "active" : true,
+            "location": "-8.155262,112.5712872,13",
             "products": [
                 {
                     "id": 1,
@@ -136,6 +137,7 @@
             "distance": 9,
             "close": true,
             "open": "08.00 - 22.00",
+            "location":"-8.0921431,112.6358647",
             "products": [
                 {
                     "id": 5,
@@ -167,6 +169,7 @@
             "distance": 5,
             "close": false,
             "open": "08.00 - 22.00",
+            "location":"-8.1498473,112.695495",
             "products": [
                 {
                     "id": 6,
@@ -207,6 +210,7 @@
             "distance": 25,
             "close": false,
             "open": "08.00 - 22.00",
+            "location":"-8.1763416,112.637598",
             "products": [
                 {
                     "id": 7,
@@ -254,6 +258,9 @@
             "star": 1,
             "delivery_amount": 28000,
             "distance": 17,
+            "close": false,
+            "open": "08.00 - 22.00",
+            "location":"-8.1577715,112.5966053",
             "products": [
                 {
                     "id": 8,

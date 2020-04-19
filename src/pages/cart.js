@@ -4,18 +4,35 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert, TextInput } fr
 import { connect } from 'react-redux';
 import s from '../styles';
 import { duit } from '../utils/number';
+import { getLocation } from '../utils/position';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Overlay, Icon, Button } from 'react-native-elements';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 // const { width, height } = Dimensions.get("screen");
-const Page = ({ navigation, cartItems, total, cancelOrder, updateCartItem, removeItem }) => {
+const Page = ({ navigation, route, cartItems, total, cancelOrder, updateCartItem, removeItem }) => {
     const [note, setNote] = useState('');
+    const [orderNote, setOrderNote] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [selected, setSelected] = useState({});
     const [showModal, setShowModal] = useState(false);
+    const [modalStatus, setModalStatus] = useState('ITEM'); // ITEM || TRX
     const [delivery, setDelivery] = useState(10000);
+    const [position, setPosition] = useState(null);
+    const [marker, setMarker] = useState(route.params?.market || {});
+
     useEffect(() => {
+        if (position == null) {
+            getLocation((pos) => {
+                setPosition(pos.coords);
+            });
+        }
     });
+    useEffect(() => {
+        if (route.params?.marker) {
+            setPosition(route.params.marker);
+        }
+    }, [route.params?.marker]);
     const clearCart = () => {
         Alert.alert(
             'Cancel Order',
@@ -27,11 +44,12 @@ const Page = ({ navigation, cartItems, total, cancelOrder, updateCartItem, remov
         );
     };
     const showEdit = (data) => {
+        setModalStatus('ITEM');
         setSelected(data);
         setNote(data.customer_note);
         setQuantity(data.quantity);
         setShowModal(true);
-    }
+    };
     const updateCart = () => {
         let updateItem = Object.assign({}, selected, { customer_note: note, quantity: quantity < 1 ? 1 : quantity });
         updateCartItem(updateItem);
@@ -73,9 +91,54 @@ const Page = ({ navigation, cartItems, total, cancelOrder, updateCartItem, remov
                 <MaterialCommunityIcons name="close" size={25} onPress={() => clearCart()} />
             </View>
             <ScrollView style={{ backgroundColor: 'white' }}>
-                <Text style={[styles.sectionHeader]}>Deliver To</Text>
+                <Text style={[styles.sectionHeader]}>Deliver To : {position?.latitude}, {position?.longitude}</Text>
                 <View style={[s.panel]}>
-                    <Text>YOUR LOCATION</Text>
+                    <View style={[s.leftRight]}>
+                        {position != null && (
+                            <MapView
+                                provider={PROVIDER_GOOGLE}
+                                style={styles.map}
+                                zoomEnabled={false}
+                                showsMyLocationButton={false}
+                                showsUserLocation={true}
+                                showsCompass={false}
+                                showsScale={false}
+                                showsPointsOfInterest={false}
+                                showsBuildings={false}
+                                scrollEnabled={false}
+                                initialRegion={{
+                                    latitude: position?.latitude,
+                                    longitude: position?.longitude,
+                                    latitudeDelta: 0.0028,
+                                    longitudeDelta: 0.0028,
+                                }}
+                                region={{
+                                    latitude: position?.latitude,
+                                    longitude: position?.longitude,
+                                    latitudeDelta: 0.0028,
+                                    longitudeDelta: 0.0028,
+                                }}
+                            >
+                                <Marker
+                                    coordinate={{
+                                        latitude: position?.latitude,
+                                        longitude: position?.longitude,
+                                    }}
+                                    title={''}
+                                    description={''}
+                                />
+                            </MapView>
+                        )}
+                        <View style={[s.right]}>
+                            <Text style={[s.link]} onPress={() => {
+                                navigation.navigate('Position', { marker });
+                            }}>Change Location</Text>
+                            <Text style={[s.link]} onPress={() => {
+                                setModalStatus('TRX');
+                                setShowModal(true);
+                            }}>Note</Text>
+                        </View>
+                    </View>
                     <View style={[s.leftRight]}>
                         <Text>Order Time (Now)</Text>
                         <Text style={[s.link]}>change order time</Text>
@@ -141,46 +204,64 @@ const Page = ({ navigation, cartItems, total, cancelOrder, updateCartItem, remov
                 height={300}
                 width="90%"
             >
-                <View style={styles.modal}>
-                    <Text style={[s.bold, s.font16]}>{selected.name}</Text>
-                    <TextInput
-                        placeholder="note for this item"
-                        value={note}
-                        onChangeText={(v) => setNote(v)}
-                    />
-                    <View style={[s.row, s.center, { paddingVertical: 20 }]}>
-                        <Icon name="minus" type="material-community" reverse color='blue'
-                            onPress={() => changeQuantity(-1)}
-                        />
+                {modalStatus == 'ITEM' ? (
+                    <View style={styles.modal}>
+                        <Text style={[s.bold, s.font16]}>{selected.name}</Text>
                         <TextInput
-                            maxLength={2}
-                            style={[s.font16, s.bold, s.center, { paddingHorizontal: 20, }]}
-                            value={quantity.toString()}
-                            onChangeText={v => setQuantity(v)}
-                            keyboardType="decimal-pad"
-                            onBlur={() => checkQuantity()}
+                            placeholder="note for this item"
+                            value={note}
+                            onChangeText={(v) => setNote(v)}
                         />
-                        <Icon name="plus" type="material-community" reverse color='blue'
-                            onPress={() => changeQuantity(1)}
-                        />
+                        <View style={[s.row, s.center, { paddingVertical: 20 }]}>
+                            <Icon name="minus" type="material-community" reverse color='blue'
+                                onPress={() => changeQuantity(-1)}
+                            />
+                            <TextInput
+                                maxLength={2}
+                                style={[s.font16, s.bold, s.center, { paddingHorizontal: 20, }]}
+                                value={quantity.toString()}
+                                onChangeText={v => setQuantity(v)}
+                                keyboardType="decimal-pad"
+                                onBlur={() => checkQuantity()}
+                            />
+                            <Icon name="plus" type="material-community" reverse color='blue'
+                                onPress={() => changeQuantity(1)}
+                            />
+                        </View>
+                        <View style={[s.row, { width: 200, justifyContent: 'space-around' }]}>
+                            <Button
+                                title="Remove"
+                                onPress={() => removeCart()}
+                            />
+                            <Button
+                                title="Update"
+                                onPress={() => updateCart()}
+                            />
+                        </View>
                     </View>
-                    <View style={[s.row, { width: 200, justifyContent: 'space-around' }]}>
-                        <Button
-                            title="Remove"
-                            onPress={() => removeCart()}
-                        />
-                        <Button
-                            title="Update"
-                            onPress={() => updateCart()}
-                        />
-                    </View>
-                </View>
+                ) : (
+                        <View>
+                            <Text style={[s.bold, s.font14]}>Order Transaction Note</Text>
+                            <TextInput
+                                style={{ maxHeight: 200 }}
+                                multiline
+                                placeholder="Type your note here"
+                                value={orderNote}
+                                onChangeText={v => setOrderNote(v)}
+                            />
+                        </View>
+                    )}
             </Overlay>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    map: {
+        backgroundColor: '#000',
+        height: 100,
+        width: 100,
+    },
     modal: {
         paddingLeft: 20,
         paddingVertical: 30,

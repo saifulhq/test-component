@@ -16,3 +16,7 @@ road map
         - Form, Input, Combo Box, SearchBar
         - Icon, Button, Image
     - Web View
+- Geo Location
+    - define current position 
+    - define distance 2 point of Lang & Location
+    - deine distance normal
